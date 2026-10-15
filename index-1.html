@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>BS Shop — Boutique en ligne</title>
+<style>
+:root{--ink:#101827;--muted:#667085;--bg:#f5f7fb;--card:#fff;--accent:#16a085;--line:#e7ebf1}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--ink);color:white;padding:16px 5%;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.logo{font-size:24px;font-weight:900;letter-spacing:-1px}.logo span{color:#54e0b8}
+.search{flex:1;max-width:500px;display:flex}.search input{width:100%;padding:12px 14px;border:0;border-radius:10px 0 0 10px;font-size:15px}.search button{border:0;background:var(--accent);color:white;padding:0 16px;border-radius:0 10px 10px 0;font-weight:bold}
+.cartbtn{background:#263447;color:white;border:1px solid #405067;border-radius:10px;padding:12px 15px;font-weight:bold;cursor:pointer}
+.hero{margin:24px auto 18px;width:90%;max-width:1200px;background:linear-gradient(120deg,#123c46,#167b70 65%,#31b795);color:white;border-radius:22px;padding:35px 30px;display:flex;justify-content:space-between;gap:20px;align-items:center;overflow:hidden}
+.hero h1{font-size:clamp(28px,4vw,46px);line-height:1.05;margin:0 0 12px}.hero p{margin:0 0 20px;max-width:540px;color:#e3fff7;line-height:1.5}.hero a{display:inline-block;background:white;color:#0b5148;padding:12px 17px;border-radius:10px;text-decoration:none;font-weight:bold}.heroicon{font-size:100px;filter:drop-shadow(0 12px 15px #003b3b55)}
+.wrap{max-width:1200px;width:90%;margin:auto}.sectiontop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0 14px}.sectiontop h2{margin:0}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter{border:1px solid var(--line);background:white;padding:9px 13px;border-radius:999px;cursor:pointer}.filter.active{background:var(--ink);color:white;border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px;margin-bottom:40px}.product{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 4px 18px #10182708}.photo{height:165px;display:grid;place-items:center;font-size:64px;background:linear-gradient(135deg,#e7f6f1,#f5f7fb)}.info{padding:15px}.tag{font-size:11px;color:#087f68;font-weight:bold;text-transform:uppercase;letter-spacing:.5px}.info h3{font-size:16px;margin:8px 0}.desc{font-size:13px;color:var(--muted);min-height:32px;line-height:1.35}.bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:14px}.price{font-weight:900;font-size:17px}.add{border:0;background:var(--accent);color:white;padding:10px 12px;border-radius:9px;font-weight:bold;cursor:pointer}.empty{grid-column:1/-1;background:white;border:1px dashed #cbd5e1;padding:30px;border-radius:14px;text-align:center;color:var(--muted)}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+.overlay{display:none;position:fixed;inset:0;background:#0b1220a8;z-index:10;justify-content:flex-end}.overlay.open{display:flex}.drawer{background:white;width:min(440px,100%);height:100%;padding:22px;overflow:auto}.drawhead{display:flex;justify-content:space-between;align-items:center}.drawhead h2{margin:0}.close{border:0;background:#eef2f7;border-radius:8px;padding:9px 12px;cursor:pointer}.cartitems{margin:20px 0}.cartrow{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.mini{font-size:30px;width:48px;height:48px;display:grid;place-items:center;background:#eff8f5;border-radius:10px}.cartrow main{flex:1}.cartrow small{display:block;color:var(--muted);margin-top:4px}.qty{display:flex;align-items:center;gap:8px}.qty button{border:1px solid var(--line);background:white;border-radius:6px;padding:4px 8px;cursor:pointer}.total{display:flex;justify-content:space-between;font-size:20px;font-weight:900;padding:15px 0;border-top:2px solid var(--ink)}label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}form input,form textarea{width:100%;padding:12px;border:1px solid #d6dce5;border-radius:9px;font:inherit}form textarea{min-height:65px;resize:vertical}.checkout{width:100%;padding:14px;border:0;background:var(--accent);color:white;font-weight:bold;border-radius:10px;font-size:15px;cursor:pointer;margin-top:14px}.hint{font-size:12px;color:var(--muted);line-height:1.5}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.heroicon{font-size:75px}}
+@media(max-width:520px){header{padding:14px 5%}.search{order:3;max-width:none;flex-basis:100%}.hero{padding:26px 20px}.heroicon{display:none}.grid{gap:10px}.photo{height:125px;font-size:52px}.info{padding:12px}.bottom{align-items:flex-start;flex-direction:column}.add{width:100%}.price{font-size:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">BS <span>SHOP</span></div>
+  <div class="search"><input id="search" type="search" placeholder="Rechercher un produit…"><button onclick="renderProducts()">Rechercher</button></div>
+  <button class="cartbtn" onclick="openCart()">🛒 Panier <span id="cartCount">0</span></button>
+</header>
+<section class="hero">
+ <div><h1>Le shopping, simplement.</h1><p>Découvre nos produits, ajoute tes favoris au panier et prépare ta commande en quelques clics.</p><a href="#boutique">Découvrir la boutique ↓</a></div>
+ <div class="heroicon">🛍️</div>
+</section>
+<main class="wrap" id="boutique">
+ <div class="sectiontop"><h2>Nos produits</h2><div class="filters" id="filters"></div></div>
+ <div class="grid" id="products"></div>
+</main>
+<footer>© <span id="year"></span> BS Shop · Boutique de démonstration personnalisable</footer>
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeCart()">
+ <aside class="drawer">
+  <div class="drawhead"><h2>Mon panier</h2><button class="close" onclick="closeCart()">Fermer ✕</button></div>
+  <div class="cartitems" id="cartItems"></div>
+  <div class="total"><span>Total</span><span id="total">0 FCFA</span></div>
+  <form id="orderForm">
+   <h3>Informations de livraison</h3>
+   <label for="customer">Nom complet *</label><input id="customer" required placeholder="Ton nom">
+   <label for="phone">Téléphone *</label><input id="phone" required type="tel" placeholder="Ex. 07 00 00 00 00">
+   <label for="address">Adresse de livraison *</label><textarea id="address" required placeholder="Commune, quartier, repère…"></textarea>
+   <label for="payment">Mode de paiement</label><select id="payment" style="width:100%;padding:12px;border:1px solid #d6dce5;border-radius:9px"><option>Paiement à la livraison</option><option>Mobile Money (à confirmer avec le vendeur)</option></select>
+   <button class="checkout" type="submit">Préparer ma commande</button>
+   <p class="hint">Cette démonstration ne traite pas de paiement et n'envoie pas automatiquement la commande. Après validation, un récapitulatif s'affiche pour être copié et envoyé au vendeur.</p>
+  </form>
+ </aside>
+</div>
+<script>
+const products=[
+{id:1,name:"Écouteurs sans fil",category:"Électronique",price:8500,emoji:"🎧",desc:"Pour écouter ta musique partout."},
+{id:2,name:"Montre élégante",category:"Mode",price:12000,emoji:"⌚",desc:"Un style simple au quotidien."},
+{id:3,name:"Sac tendance",category:"Mode",price:9500,emoji:"👜",desc:"Pratique pour sortir et voyager."},
+{id:4,name:"Baskets urbaines",category:"Chaussures",price:18000,emoji:"👟",desc:"Confort et look décontracté."},
+{id:5,name:"Enceinte Bluetooth",category:"Électronique",price:15000,emoji:"🔊",desc:"Partage tes sons avec tes amis."},
+{id:6,name:"Lunettes de soleil",category:"Accessoires",price:6000,emoji:"🕶️",desc:"La touche finale de ton style."},
+{id:7,name:"T-shirt classique",category:"Mode",price:5000,emoji:"👕",desc:"Un essentiel facile à porter."},
+{id:8,name:"Parfum",category:"Beauté",price:10000,emoji:"🧴",desc:"Une fragrance pour tous les jours."}
+];
+let category="Tout",cart={};
+const money=n=>new Intl.NumberFormat("fr-FR").format(n)+" FCFA";
+function renderFilters(){let cats=["Tout",...new Set(products.map(p=>p.category))];document.getElementById("filters").innerHTML=cats.map(c=>`<button class="filter ${category===c?'active':''}" onclick="category='${c}';renderFilters();renderProducts()">${c}</button>`).join("")}
+function renderProducts(){let q=document.getElementById("search").value.toLowerCase().trim();let list=products.filter(p=>(category==="Tout"||p.category===category)&&(p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)));document.getElementById("products").innerHTML=list.length?list.map(p=>`<article class="product"><div class="photo">${p.emoji}</div><div class="info"><span class="tag">${p.category}</span><h3>${p.name}</h3><div class="desc">${p.desc}</div><div class="bottom"><span class="price">${money(p.price)}</span><button class="add" onclick="addToCart(${p.id})">Ajouter +</button></div></div></article>`).join(""):'<div class="empty">Aucun produit trouvé. Essaie une autre recherche.</div>'}
+function addToCart(id){cart[id]=(cart[id]||0)+1;updateCart();let b=document.getElementById("cartCount");b.textContent=Object.values(cart).reduce((a,b)=>a+b,0)}
+function updateCart(){let ids=Object.keys(cart).filter(id=>cart[id]>0);document.getElementById("cartItems").innerHTML=ids.length?ids.map(id=>{let p=products.find(x=>x.id==id);return `<div class="cartrow"><div class="mini">${p.emoji}</div><main><strong>${p.name}</strong><small>${money(p.price)} / unité</small></main><div class="qty"><button onclick="changeQty(${id},-1)">−</button><b>${cart[id]}</b><button onclick="changeQty(${id},1)">+</button></div></div>`}).join(""):'<div class="empty">Ton panier est vide pour le moment.</div>';let total=ids.reduce((s,id)=>s+products.find(p=>p.id==id).price*cart[id],0);document.getElementById("total").textContent=money(total);document.getElementById("cartCount").textContent=ids.reduce((s,id)=>s+cart[id],0)}
+function changeQty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];updateCart()}
+function openCart(){document.getElementById("overlay").classList.add("open");updateCart()}function closeCart(){document.getElementById("overlay").classList.remove("open")}
+document.getElementById("search").addEventListener("input",renderProducts);
+document.getElementById("orderForm").addEventListener("submit",e=>{e.preventDefault();let ids=Object.keys(cart).filter(id=>cart[id]>0);if(!ids.length){alert("Ajoute au moins un produit au panier.");return}let lines=ids.map(id=>{let p=products.find(x=>x.id==id);return `- ${p.name} x${cart[id]} : ${money(p.price*cart[id])}`});let total=ids.reduce((s,id)=>s+products.find(p=>p.id==id).price*cart[id],0);let msg=`COMMANDE BS SHOP\nNom : ${document.getElementById("customer").value}\nTéléphone : ${document.getElementById("phone").value}\nAdresse : ${document.getElementById("address").value}\nPaiement : ${document.getElementById("payment").value}\n\n${lines.join("\n")}\n\nTOTAL : ${money(total)}\n\nMerci de confirmer la disponibilité et la livraison.`;let w=window.open("","_blank");if(w){w.document.write(`<html lang="fr"><meta charset="utf-8"><title>Récapitulatif de commande</title><body style="font-family:Arial;max-width:650px;margin:30px auto;padding:20px"><h2>Commande préparée ✅</h2><p>Copie ce message et envoie-le au vendeur pour confirmer la commande.</p><textarea id="msg" style="width:100%;height:260px;padding:12px;box-sizing:border-box">${msg.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</textarea><p><button onclick="document.getElementById('msg').select();document.execCommand('copy');this.textContent='Copié !'" style="padding:12px 18px">Copier le récapitulatif</button></p><p>La commande n'est pas encore envoyée ni payée.</p></body></html>`);w.document.close()}else alert(msg);});
+document.getElementById("year").textContent=new Date().getFullYear();renderFilters();renderProducts();updateCart();
+</script>
+</body>
+</html>
